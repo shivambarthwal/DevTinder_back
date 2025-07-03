@@ -1,0 +1,10 @@
+
+# Dependency directories
+node_modules/
+jspm_packages/
+
+# Package files
+package.json
+package-lock.json
+pnpm-lock.yaml
+yarn.lock
