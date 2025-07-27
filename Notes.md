@@ -52,29 +52,38 @@ A developer matchmaking platform where users can connect, explore profiles, and 
 
 ## 🌐 API Design (RESTful)
 
-### 🔐 Auth APIs
+### 🔐 Auth APIs (Auth router)
 | Method | Endpoint       | Description            |
 |--------|----------------|------------------------|
 | POST   | `/signup`      | Register a new user    |
 | POST   | `/login`       | Login with credentials |
+| POST   | `/logout`      | Logout with credentials|
 
-### 👤 Profile APIs
+### 👤 Profile APIs (Profile router)
 | Method | Endpoint       | Description                  |
 |--------|----------------|------------------------------|
 | GET    | `/profile/:id` | Fetch a user's profile       |
 | POST   | `/profile`     | Create a profile             |
 | PATCH  | `/profile/:id` | Update user details          |
 | DELETE | `/profile/:id` | Delete the profile           |
+| PATCH  | `/profile/password` | Delete the profile      |
 
-### 🤝 Connection APIs
+### 🤝 Connection APIs (Connection router)
+### Status : ignore , intrested , accepeted , rejected 
 | Method | Endpoint            | Description                         |
 |--------|---------------------|-------------------------------------|
-| POST   | `/send-request`     | Send request (status: interested)   |
-| POST   | `/ignore-request`   | Ignore a request                    |
-| GET    | `/sent-requests`    | View all sent requests              |
-| GET    | `/matches`          | View accepted connections           |
-| PATCH  | `/handle-request`   | Accept or reject incoming requests  |
+| POST   | `request/send/intrested/:userId`     | Send request (status: interested)  |
+| POST   | `request/send/ignored/:userId`       | Ignore a request                   |
 
+| POST    | `request/review/accepted/:requestId`| accepts incoming requests          |
+| POST    | `request/review/rejected/:requestId`| reject incoming requests           |
+
+### 🔐 More APIs ( User)
+| Method | Endpoint       | Description            |
+|--------|---------------------|--------------------------|
+| GET   | `/connections`       | Register a new user      |
+| GET   | `/requests/received` | Login with credentials   |
+| GET   | `/feed`              | get the others profile   |
 ---
 
 ## ✅ Future Scope Ideas
@@ -84,6 +93,22 @@ A developer matchmaking platform where users can connect, explore profiles, and 
 - Admin dashboard
 
 ---
+### Thought Process 
+
+Post vs Get 
+
+(POST API)
+
+  const reqData = await connectionRequest.save();
+  This is should be your last line , before this you should check all the validation , data sanitization .
+  Never trust req.body or User data.
+
+(GET API)
+
+before sending any data you should be 100 percent user.
+
+
+Best Industry Level approach is to use the express.router()
 
 📌 *This document serves as a blueprint for building the Dev Tinder app with a clear flow, REST API structure, and low-level design considerations.*
 
