@@ -3,7 +3,6 @@ const { validationSignUp, validationLogin } = require("../utils/validation");
 const User = require("../models/user");
 const bcrypt = require("bcrypt");
 
-
 const authRouter = express.Router();
 
 authRouter.post("/signup", async (req, res) => {
@@ -37,7 +36,7 @@ authRouter.post("/login", async (req, res) => {
     const { email, password } = req.body;
 
     const user = await User.findOne({ email });
-    
+
     if (!user) {
       throw new Error("Invalid Credentials");
     }
@@ -51,21 +50,24 @@ authRouter.post("/login", async (req, res) => {
       res.cookie("token", token, {
         expires: new Date(Date.now() + 8 * 3600000),
       });
-      res.send("LOGIN SUCCESSFUL !");
+      res.json({
+        status: "success",
+        message: "Login Successful",
+        user,
+      });
     } else {
       throw new Error("Invalid Credentials");
     }
   } catch (error) {
-    res.status(400).send(" ERROR is here " + error.message);
+    res.status(400).send(" ERROR " + error.message);
   }
 });
 
-authRouter.post("/logout", async (req,res) => {
-
+authRouter.post("/logout", async (req, res) => {
   //we do clean-up action in logout api
-  
-  res.cookie("token",null , {expires : new Date(Date.now())});
+
+  res.cookie("token", null, { expires: new Date(Date.now()) });
   res.send("LOGOUT SUCCESSFUL !");
-})
+});
 
 module.exports = authRouter;
