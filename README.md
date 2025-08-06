@@ -13,3 +13,4 @@ Caret ^
 
 Tilde ~
 ✅ Allows updates to PATCH versions only.
+
