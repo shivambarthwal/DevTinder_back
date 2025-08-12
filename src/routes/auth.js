@@ -38,7 +38,7 @@ authRouter.post("/signup", async (req, res) => {
   }
 });
 
-authRouter.post("/login", async (req, res) => {
+authRouter.post("/login", async  (req, res) => {
   try {
     validationLogin(req);
     const { email, password } = req.body;

@@ -80,8 +80,8 @@ userRouter.get("/user/connections", userAuth, async (req, res) => {
 
 userRouter.get("/feed", userAuth, async (req, res) => {
   try {
-    //user should not see it's own profile
-    // user should not see profiles of it's connections (Friend)
+    //user should not see its own profile
+    // user should not see profiles of its connections (Friend)
     // user should not see profiles of profile who already ignored or have sent the request
     // entries on the collectionsReq should not be present in The feed
 
@@ -97,7 +97,7 @@ userRouter.get("/feed", userAuth, async (req, res) => {
       $or: [{ toUserId: loggedInUser?._id }, { fromUserId: loggedInUser?._id }],
     }).select("fromUserId toUserId");
 
-    // set Data structure is like an array but it is faster than array
+    // set Data structure is like an array, but it is faster than array
     // set is like a collection of unique values
     // [a,b,c,d] contains unique value only , it will remove the duplicate value
     const hiddenUser = new Set();
