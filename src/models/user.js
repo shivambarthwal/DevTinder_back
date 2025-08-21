@@ -30,6 +30,10 @@ const userSchema = new mongoose.Schema(
           throw new Error("Invalid Gender");
       },
     },
+    isPremium: { type: Boolean, default: false },
+    membershipType:{
+      type: String,
+    },
     photoUrl: {
       type: String,
       default: "https://www.freeiconspng.com/img/13470",

@@ -15,3 +15,14 @@ Tilde ~
 ✅ Allows updates to PATCH versions only.
 
 AWS SES(simple email service)
+Scheduling Email everyday at 8 A.M (CronsJob)
+npm i node-cron 
+
+### Payment gateway
+
+Whenever i payment happen it have two steps .
+create Order - First api
+Payment verification - second api
+
+ 
+
