@@ -57,9 +57,9 @@ paymentrouter.post("/payment/create", userAuth, async (req, res) => {
 paymentrouter.post("/payment/webhook", async (req, res) => {
   try {
     // we need to validate the webhook signature
-    // const webhookSignature = req.headers["X-Razorpay-Signature"]; 
+    // const webhookSignature = req.headers["X-Razorpay-Signature"];
     const webhookSignature = req.get("X-Razorpay-Signature");
-     
+
     const isValidSignature = validateWebhookSignature(
       JSON.stringify(req.body),
       webhookSignature,
@@ -70,7 +70,6 @@ paymentrouter.post("/payment/webhook", async (req, res) => {
       return res.status(400).json({ msg: "Invalid webhook signature" });
     }
 
-
     // Update DB data
 
     const paymentDetails = req.body.payload.payment.entity;
@@ -78,29 +77,28 @@ paymentrouter.post("/payment/webhook", async (req, res) => {
     const payment = await Payment.findOne({ orderId: paymentDetails.order_id });
     payment.status = paymentDetails.status;
     await payment.save();
-    // if my webhook is valid i will update the payment status 
+    // if my webhook is valid i will update the payment status
 
-    const user = await User.findById({_id: payment.userId});
+    const user = await User.findById({ _id: payment.userId });
     user.isPremium = true;
     user.membershipType = payment.notes.membershipType;
-    if(req.body.event == "payment.captured") {
+    if (req.body.event == "payment.captured") {
     }
-    if(req.body.event == "payment.failed") {
+    if (req.body.event == "payment.failed") {
     }
-    
+
     return res.status(200).json({ msg: "Wenhook success" });
-    
   } catch (error) {
-    return res.status(500).json({ msg: error.message});
+    return res.status(500).json({ msg: error.message });
   }
 });
 
-paymentrouter.get("/premium/verify",userAuth, async(req,res)=>{
-  const user = req.user;
-  if(user.isPremium) {
-    return res.json({isPremium : true});
+paymentrouter.get("/premium/verify", userAuth, async (req, res) => {
+  const user = req.user.toJSON();
+  if (user.isPremium) {
+    return res.json({ ...user });
   }
-  return res.json({isPremium : false});
-})
+  return res.json({ ...user });
+});
 
 module.exports = paymentrouter;
